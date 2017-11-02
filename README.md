@@ -1,127 +1,78 @@
 Protocol Buffers - Google's data interchange format
 ===================================================
 
-[![Build Status](https://travis-ci.org/google/protobuf.svg?branch=master)](https://travis-ci.org/google/protobuf)
+[![Build Status](https://travis-ci.org/google/protobuf.svg?branch=master)](https://travis-ci.org/google/protobuf) [![Build status](https://ci.appveyor.com/api/projects/status/73ctee6ua4w2ruin?svg=true)](https://ci.appveyor.com/project/protobuf/protobuf) [![Build Status](https://grpc-testing.appspot.com/buildStatus/icon?job=protobuf_branch)](https://grpc-testing.appspot.com/job/protobuf_branch) [![Build Status](https://grpc-testing.appspot.com/job/protobuf_branch_32/badge/icon)](https://grpc-testing.appspot.com/job/protobuf_branch_32) [![Build Status](http://ci.bazel.io/buildStatus/icon?job=protobuf)](http://ci.bazel.io/job/protobuf/)
 
 Copyright 2008 Google Inc.
 
-This directory contains the Java Protocol Buffers runtime library.
+https://developers.google.com/protocol-buffers/
 
-Installation - With Maven
-=========================
+Overview
+--------
 
-The Protocol Buffers build is managed using Maven.  If you would
-rather build without Maven, see below.
+Protocol Buffers (a.k.a., protobuf) are Google's language-neutral,
+platform-neutral, extensible mechanism for serializing structured data. You
+can find [protobuf's documentation on the Google Developers site](https://developers.google.com/protocol-buffers/).
 
-1) Install Apache Maven if you don't have it:
+This README file contains protobuf installation instructions. To install
+protobuf, you need to install the protocol compiler (used to compile .proto
+files) and the protobuf runtime for your chosen programming language.
 
-     http://maven.apache.org/
+Protocol Compiler Installation
+------------------------------
 
-2) Build the C++ code, or obtain a binary distribution of protoc (see
-   the toplevel [README.md](../README.md)). If you install a binary
-   distribution, make sure that it is the same version as this package.
-   If in doubt, run:
+The protocol compiler is written in C++. If you are using C++, please follow
+the [C++ Installation Instructions](src/README.md) to install protoc along
+with the C++ runtime.
 
-     $ protoc --version
+For non-C++ users, the simplest way to install the protocol compiler is to
+download a pre-built binary from our release page:
 
-   You will need to place the protoc executable in ../src.  (If you
-   built it yourself, it should already be there.)
+  [https://github.com/google/protobuf/releases](https://github.com/google/protobuf/releases)
 
-3) Run the tests:
+In the downloads section of each release, you can find pre-built binaries in
+zip packages: protoc-$VERSION-$PLATFORM.zip. It contains the protoc binary
+as well as a set of standard .proto files distributed along with protobuf.
 
-     $ mvn test
+If you are looking for an old version that is not available in the release
+page, check out the maven repo here:
 
-   If some tests fail, this library may not work correctly on your
-   system.  Continue at your own risk.
+  [https://repo1.maven.org/maven2/com/google/protobuf/protoc/](https://repo1.maven.org/maven2/com/google/protobuf/protoc/)
 
-4) Install the library into your Maven repository:
+These pre-built binaries are only provided for released versions. If you want
+to use the github master version at HEAD, or you need to modify protobuf code,
+or you are using C++, it's recommended to build your own protoc binary from
+source.
 
-     $ mvn install
+If you would like to build protoc binary from source, see the [C++ Installation
+Instructions](src/README.md).
 
-5) If you do not use Maven to manage your own build, you can build a
-   .jar file to use:
+Protobuf Runtime Installation
+-----------------------------
 
-     $ mvn package
+Protobuf supports several different programming languages. For each programming
+language, you can find instructions in the corresponding source directory about
+how to install protobuf runtime for that specific language:
 
-   The .jar will be placed in the "target" directory.
+| Language                             | Source                                                      |
+|--------------------------------------|-------------------------------------------------------------|
+| C++ (include C++ runtime and protoc) | [src](src)                                                  |
+| Java                                 | [java](java)                                                |
+| Python                               | [python](python)                                            |
+| Objective-C                          | [objectivec](objectivec)                                    |
+| C#                                   | [csharp](csharp)                                            |
+| JavaNano                             | [javanano](javanano)                                        |
+| JavaScript                           | [js](js)                                                    |
+| Ruby                                 | [ruby](ruby)                                                |
+| Go                                   | [golang/protobuf](https://github.com/golang/protobuf)       |
+| PHP                                  | [php](php)                                                  |
+| Dart                                 | [dart-lang/protobuf](https://github.com/dart-lang/protobuf) |
 
-The above instructions will install 3 maven artifacts:
 
-  * protobuf-java: The core Java Protocol Buffers library. Most users only
-                   need this artifact.
-  * protobuf-lite: The lite version of core Java Protobuf Buffers library. It
-                   is a subset of the core library and is used together with
-                   the 'lite' code generator flag to reduce generated code size
-                   for mobile.
-  * protobuf-java-util: Utilities to work with protos. It contains JSON support
-                        as well as utilities to work with proto3 well-known
-                        types.
-
-Installation - Without Maven
-============================
-
-If you would rather not install Maven to build the library, you may
-follow these instructions instead.  Note that these instructions skip
-running unit tests and only describes how to install the core protobuf
-library (without the util package).
-
-1) Build the C++ code, or obtain a binary distribution of protoc.  If
-   you install a binary distribution, make sure that it is the same
-   version as this package.  If in doubt, run:
-
-     $ protoc --version
-
-   If you built the C++ code without installing, the compiler binary
-   should be located in ../src.
-
-2) Invoke protoc to build DescriptorProtos.java:
-
-     $ protoc --java_out=core/src/main/java -I../src \
-         ../src/google/protobuf/descriptor.proto
-
-3) Compile the code in core/src/main/java using whatever means you prefer.
-
-4) Install the classes wherever you prefer.
-
-Compatibility Notice
-====================
-
-* Protobuf minor version releases are backwards-compatible. If your code
-  can build/run against the old version, it's expected to build/run against
-  the new version as well. Both binary compatibility and source compatibility
-  are guaranteed for minor version releases if the user follows the guideline
-  described in this section.
-
-* Protobuf major version releases may also be backwards-compatbile with the
-  last release of the previous major version. See the release notice for more
-  details.
-
-* APIs marked with the @ExperimentalApi annotation are subject to change. They
-  can be modified in any way, or even removed, at any time. Don't use them if
-  compatibility is needed. If your code is a library itself (i.e. it is used on
-  the CLASSPATH of users outside your own control), you should not use
-  experimental APIs, unless you repackage them (e.g. using ProGuard).
-
-* Deprecated non-experimental APIs will be removed two years after the release
-  in which they are first deprecated. You must fix your references before this
-  time. If you don't, any manner of breakage could result (you are not
-  guaranteed a compilation error).
-
-* Protobuf message interfaces/classes are designed to be subclassed by protobuf
-  generated code only. Do not subclass these message interfaces/classes
-  yourself. We may add new methods to the message interfaces/classes which will
-  break your own subclasses.
-
-* Don't use any method/class that is marked as "used by generated code only".
-  Such methods/classes are subject to change.
-
-* Protobuf LITE runtime APIs are not stable yet. They are subject to change even
-  in minor version releases.
-
-Documentation
-=============
+Usage
+-----
 
 The complete documentation for Protocol Buffers is available via the
 web at:
 
-  https://developers.google.com/protocol-buffers/
+https://developers.google.com/protocol-buffers/
