@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func RemoveEven(arr []int) []int {
   ans := []int{}
   for _, val := range(arr){
@@ -20,7 +18,4 @@ func PowerGenerator(e int) (func() int) {
       exp *= foundation
       return exp
   }
-}
-
-func main() {
 }
