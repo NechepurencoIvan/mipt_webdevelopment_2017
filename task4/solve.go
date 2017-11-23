@@ -11,3 +11,16 @@ func RemoveEven(arr []int) []int {
   }
   return ans
 }
+
+
+func PowerGenerator(e int) (func() int) {
+  foundation := e
+  exp := 1
+  return func() (ret int) {
+      exp *= foundation
+      return exp
+  }
+}
+
+func main() {
+}
